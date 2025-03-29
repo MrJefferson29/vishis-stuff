@@ -2,66 +2,78 @@ import React, { useRef, useContext } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { AuthContext } from "../../Context/AuthContext";
 import { FiArrowLeft } from "react-icons/fi";
-import { Row, Col } from "react-bootstrap";
 import "../../Css/AddStory.css";
+import { Row, Col } from "react-bootstrap";
 
 const AddStory = () => {
   const { config } = useContext(AuthContext);
-  const editorEl = useRef(null);
-  const [image, setImage] = useState("");
-  const [depart, setDepart] = useState("");
-  const [insurrance, setInsurrance] = useState("");
-  const [receiver, setReceiver] = useState("");
-  const [expect, setExpect] = useState("");
-  const [weight, setWeight] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [address, setAddress] = useState("");
+  const [status, setStatus] = useState("");
+  const [weight, setWeight] = useState("");
+  const [packageName, setPackageName] = useState("");
+  const [location, setLocation] = useState("");
+  const [carrier, setCarrier] = useState("");
+  const [time, setTime] = useState("");
+  const [long, setLong] = useState("");
+  const [lat, setLat] = useState("");
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
   const clearInputs = () => {
     setTitle("");
     setContent("");
-    setDepart("");
+    setAddress("");
+    setStatus("");
     setWeight("");
-    setInsurrance("");
-    setExpect("");
-    setReceiver("");
-    setImage("");
-    editorEl.current.editor.setData("");
+    setPackageName("");
+    setLocation("");
+    setCarrier("");
+    setTime("");
+    setLong("");
+    setLat("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formdata = new FormData();
-    formdata.append("title", title);
-    formdata.append("image", image);
-    formdata.append("content", content);
-    formdata.append("depart", depart);
-    formdata.append("weight", weight);
-    formdata.append("insurrance", insurrance);
-    formdata.append("expect", expect)
-    formdata.append("receiver", receiver)
+
+    const formData = {
+      title,
+      content,
+      address,
+      status,
+      weight,
+      packageName,
+      location,
+      carrier,
+      time,
+      long,
+      lat,
+    };
 
     try {
-      const { data } = await axios.post("https://vishis-mauve.vercel.app/story/addstory", formdata, config);
-      setSuccess("Chi Posted Succesfully, GOOD JOB!");
-
+      const { data } = await axios.post(
+        "https://vishis-mauve.vercel.app/story/addstory",
+        formData,
+        config
+      );
+      setSuccess("Story added successfully");
       clearInputs();
+
       setTimeout(() => {
         setSuccess("");
       }, 7000);
     } catch (error) {
+      setError(error.response?.data?.error || "An error occurred");
       setTimeout(() => {
         setError("");
       }, 7000);
-      setError(error.response.data.error);
     }
   };
+
   return (
     <div className="Inclusive-addStory-page ">
       <Link to={"/"}>
@@ -72,12 +84,9 @@ const AddStory = () => {
         {success && (
           <div className="success_msg">
             <span>{success}</span>
-            <Link to="/" style={{ color: "bisque", fontWeight: "900" }}>
-              Go home
-            </Link>
+            <Link to="/">Go home</Link>
           </div>
         )}
-
         <Row>
           <Col md="6">
             <input
@@ -85,47 +94,45 @@ const AddStory = () => {
               type="text"
               id="title"
               required
-              placeholder="Tracking ID"
+              placeholder="Tracking ID (10 Characters)"
               onChange={(e) => setTitle(e.target.value)}
               value={title}
               autoFocus={true}
             />
-
             <input
               className="inp"
               type="text"
               required
-              id="insurrance"
+              id="address"
               placeholder="Receiver's address"
-              onChange={(e) => setInsurrance(e.target.value)}
-              value={insurrance}
+              onChange={(e) => setAddress(e.target.value)}
+              value={address}
             />
-             <input
+            <input
               className="inp"
               type="text"
               required
-              id="expect"
-              placeholder="When will it be received (How long)"
-              onChange={(e) => setExpect(e.target.value)}
-              value={expect}
+              id="time"
+              placeholder="When will it be received (Example: 3 days)"
+              onChange={(e) => setTime(e.target.value)}
+              value={time}
             />
           </Col>
           <Col md="6">
             <input
               className="inp"
               type="text"
-              id="weight"
-              placeholder="Package Weight"
-              onChange={(e) => setWeight(e.target.value)}
-              value={weight}
+              id="content"
+              placeholder="Receiver's Name"
+              onChange={(e) => setContent(e.target.value)}
+              value={content}
             />
-
             <select
               className="inp"
               required
-              id="content"
-              onChange={(e) => setContent(e.target.value)}
-              value={content}
+              id="status"
+              onChange={(e) => setStatus(e.target.value)}
+              value={status}
             >
               <option value="" disabled>
                 Select Package Status
@@ -134,29 +141,67 @@ const AddStory = () => {
               <option value="delivered">Delivered</option>
               <option value="delayed">Delayed</option>
               <option value="denied">Denied</option>
-              {/* Add more options as needed */}
             </select>
             <input
               className="inp"
               type="text"
-              placeholder="When was package shipped (what day)"
-              onChange={(e) => setDepart(e.target.value)}
-              value={depart}
-              id="depart"
+              id="packageName"
+              placeholder="Package Type"
+              onChange={(e) => setPackageName(e.target.value)}
+              value={packageName}
             />
-             <input
+            <input
               className="inp"
               type="text"
-              required
-              id="receiver"
-              placeholder="Name of receiver"
-              onChange={(e) => setReceiver(e.target.value)}
-              value={receiver}
+              id="weight"
+              placeholder="Package Weight"
+              onChange={(e) => setWeight(e.target.value)}
+              value={weight}
             />
+            <input
+              className="inp"
+              type="text"
+              id="location"
+              placeholder="Last recorded Location"
+              onChange={(e) => setLocation(e.target.value)}
+              value={location}
+            />
+            <input
+              className="inp"
+              type="text"
+              id="long"
+              placeholder="Give the longitude location"
+              onChange={(e) => setLong(e.target.value)}
+              value={long}
+            />
+            <input
+              className="inp"
+              type="text"
+              id="lat"
+              placeholder="Give the latitude location"
+              onChange={(e) => setLat(e.target.value)}
+              value={lat}
+            />
+            <select
+              className="inp"
+              required
+              id="carrier"
+              onChange={(e) => setCarrier(e.target.value)}
+              value={carrier}
+            >
+              <option value="" disabled>
+                Select Delivery Agency
+              </option>
+              <option value="UPS">UPS</option>
+              <option value="FedEx">FedEx</option>
+              <option value="USPS">USPS</option>
+              <option value="DHL">DHL</option>
+              <option value="UShip">UShip</option>
+            </select>
           </Col>
         </Row>
         <button type="submit" className="addStory-btn">
-          Publish{" "}
+          Publish
         </button>
       </form>
     </div>
