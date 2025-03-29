@@ -1,46 +1,44 @@
 const asyncErrorWrapper = require("express-async-handler")
 const Story = require("../Models/story");
 // const deleteImageFile = require("../Helpers/Libraries/deleteImageFile");
-const {searchHelper, paginateHelper} =require("../Helpers/query/queryHelpers");
+const {searchHelper, paginateHelper} =require("../Helpers/query/queryHelpers")
 
-const addStory = asyncErrorWrapper(async  (req,res,next)=> {
 
-    const {title,content, depart, weight, insurrance, receiver, expect }= req.body 
 
-    var wordCount = content.trim().split(/\s+/).length ; 
-   
-    let readtime = Math.floor(wordCount /200)   ;
+const addStory = async (req, res, next) => {
+    const { title, content, address, status, time, packageName, location, weight, carrier, long, lat } = req.body;
 
+    const wordCount = content.trim().split(/\s+/).length;
+    const readtime = Math.floor(wordCount / 200);
 
     try {
+
         const newStory = await Story.create({
             title,
             content,
-            depart,
+            address,
+            status,
+            time,
+            packageName,
+            location,
+            long,
+            lat,
             weight,
-            insurrance,
-            receiver,
-            expect,
-            author :req.user._id ,
-            readtime
-        })
+            carrier,
+            author: req.user._id,
+            readtime,
+        });
 
         return res.status(200).json({
-            success :true ,
-            message : "The puppy has been posted, GOOD JOB",
-            data: newStory
-        })
+            success: true,
+            message: "Story added successfully",
+            data: newStory,
+        });
+    } catch (error) {
+        console.error("Error adding story:", error);
+        return next(error);
     }
-
-    catch(error) {
-
-        // deleteImageFile(req)
-
-        return next(error)
-        
-    }
-  
-})
+};
 
 const getAllStories = asyncErrorWrapper( async (req,res,next) =>{
 
@@ -52,7 +50,7 @@ const getAllStories = asyncErrorWrapper( async (req,res,next) =>{
 
     query = paginationResult.query  ;
 
-    query = query.sort("-createdAt")
+    query = query.sort("-likeCount -commentCount -createdAt")
 
     const stories = await query
     
@@ -141,29 +139,23 @@ const editStoryPage  =asyncErrorWrapper(async(req,res,next)=>{
 
 const editStory  =asyncErrorWrapper(async(req,res,next)=>{
     const {slug } = req.params ; 
-    const {title ,content, depart, weight, insurrance, receiver, expect} = req.body;
+    const {title ,content, address, status, time, packageName, location, weight, carrier, long, lat } = req.body;
 
     const story = await Story.findOne({slug : slug })
 
     story.title = title ;
     story.content = content ;
-    story.depart = depart;
-    story.insurrance = insurrance;
+    story.address = address;
+    story.status = status;
+    story.time = time;
+    story.packageName = packageName;
+    story.location = location;
     story.weight = weight;
-    story.receiver = receiver;
-    story.expect = expect;
-    // story.image =   req.savedStoryImage ;
+    story.carrier = carrier;
+    story.long = long;
+    story.lat = lat;
 
-    // if( !req.savedStoryImage) {
-    //     // if the image is not sent
-    //     story.image = image
-    // }
-    // else {
-    //     // if the image sent
-    //     // old image locatıon delete
-    //    deleteImageFile(req,previousImage)
 
-    // }
 
     await story.save()  ;
 
@@ -179,9 +171,7 @@ const deleteStory  =asyncErrorWrapper(async(req,res,next)=>{
 
     const {slug} = req.params  ;
 
-    const story = await Story.findOne({slug : slug })
-
-    // deleteImageFile(req,story.image) ; 
+    const story = await Story.findOne({slug : slug }) 
 
     await story.remove()
 
