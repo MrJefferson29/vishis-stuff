@@ -11,36 +11,58 @@ const StorySchema = new mongoose.Schema({
         required: true
     },
     slug: String,
+    //ID
     title: {
         type: String,
-        required: [true, "Input a tracking ID"],
-        unique: [true, "That tracking number alredy exists, try another,"],
-        minlength: [10, "Tracking number must be 10 characters "],
-        maxlength: [10, "Tracking number must be 10 characters"],
+        required: [true, "Please provide a tracking ID"],
+        unique: [true, "Tracking ID alreadyn exist, try another"],
+        minlength: [13, "Tracking I must be 13 characters long"],
+        maxlength: [13, "Tracking I must be 13 characters long"],
+
     },
-    content: {
+    // Package Name
+    packageName: {
         type: String,
-        required: [true, "Place  status for the package "],
+        required: [true, 'Provide a package name']
     },
-    expect: {
+    location: {
         type: String,
-        required: [true, "When should the package be expected"]
-    },
-    receiver: {
-        type: String,
-        required: [true, "Input the receiver's name and address"]
-    },
-    depart: {
-        type: String,
-        required: [true, "Input when the package was shipped"],
+        required: [true, 'When last was the package seen']
     },
     weight: {
         type: String,
-        required: [false, "Please input the package weight"]
+        required: [true, 'what is package weight']
     },
-    insurrance: {
+    carrier: {
         type: String,
-        required: [true, 'How much is the insurrnce fee']
+        required: [true, 'who is the package carrier']
+    },
+    //Name
+    content: {
+        type: String,
+        required: [true, "Please a provide the Client's Name "],
+    },
+    address: {
+        type: String,
+        required: [true, "Please a provide the Client's Address "],
+    },
+    status: {
+        type: String,
+        required: [true, "Please a provide the package's Status"],
+    },
+    long: {
+        type: String,
+    },
+    lat: {
+        type: String,
+    },
+    time: {
+        type: String,
+        required: [true, "Please a provide the time left to delivery"],
+    },
+    imageUrl: {
+        type: String,
+        default: "default.jpg"
     },
     readtime: {
         type: Number,
