@@ -6,14 +6,8 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import PropTypes from 'prop-types';
-import pin from '../../Assets/pin.png'
 
-const customIcon = new L.Icon({
-  iconUrl: pin, // Replace with the actual URL of the custom marker icon
-  iconSize: [32, 32],
-  iconAnchor: [16, 32],
-  popupAnchor: [0, -32],
-});
+
 
 const Story = ({ story }) => {
   const hasValidCoordinates = !isNaN(story.lat) && !isNaN(story.long);
@@ -52,32 +46,6 @@ const Story = ({ story }) => {
               <p><strong>Expected Delivery:</strong> {story.time || "N/A"}</p>
             </Col>
           </Row>
-
-          <Row className="map-section">
-            <Col md="12">
-              <h4>Package Location on Map</h4>
-              {hasValidCoordinates ? (
-                <MapContainer
-                  center={[story.lat, story.long]}
-                  zoom={13}
-                  style={{ height: '400px', width: '100%' }}
-                >
-                  <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
-                  />
-                  <Marker position={[story.lat, story.long]} icon={customIcon}>
-                    <Popup>
-                      Package current location: {story.location || "Unknown"}
-                    </Popup>
-                  </Marker>
-                </MapContainer>
-              ) : (
-                <p>Location information is not available.</p>
-              )}
-            </Col>
-          </Row>
-
           <Row className="additional-info">
             <Col md="12">
               <h4>Additional Information</h4>
