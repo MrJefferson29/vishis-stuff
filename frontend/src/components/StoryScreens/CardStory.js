@@ -87,7 +87,7 @@ const Story = ({ story }) => {
               <p className="notes"><strong>Exception Notifications:</strong> You will receive notifications for any delivery issues...</p>
               <p className="notes"><strong>Insurance Information:</strong> Shipment insurance is required...</p>
               <p className="notes"><strong>Weather Conditions:</strong> Weather conditions may impact delivery schedules...</p>
-              <p className="contact-info"><strong>Contact Information:</strong> For inquiries, contact our support at <a href="mailto:albatrossexpresslogistics@gmail.com">albatrossexpresslogistics@gmail.com</a>.</p>
+              <p className="contact-info"><strong>Contact Information:</strong> For inquiries, contact our support at <a href="mailto:vishis.logistics1968@gmail.com">vishis.logistics1968@gmail.com</a>.</p>
             </Col>
           </Row>
         </Container>
