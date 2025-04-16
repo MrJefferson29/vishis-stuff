@@ -8,7 +8,6 @@ import RegisterScreen from "./components/AuthScreens/RegisterScreen"
 import ForgotPasswordScreen from "./components/AuthScreens/ForgotPasswordScreen"
 import ResetPasswordScreen from "./components/AuthScreens/ResetPasswordScreen"
 import AddStory from './components/StoryScreens/AddStory';
-import DetailStory from './components/StoryScreens/DetailStory';
 import Header from './components/GeneralScreens/Header';
 import Footer from './components/GeneralScreens/Footer';
 import Profile from './components/ProfileScreens/Profile';
