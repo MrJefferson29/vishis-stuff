@@ -39,7 +39,6 @@ const App = () => {
                                           <Route exact path='/meet-the-team' element={<Team />} />
 
 
-                                    <Route exact path="/story/:slug" element={<DetailStory />} />
 
                                     <Route exact path='/create-post' element={<PrivateRoute />}>
                                           <Route exact path='/create-post' element={<AddStory />} />
@@ -57,19 +56,9 @@ const App = () => {
                                           <Route exact path='/change_Password' element={<ChangePassword />} />
                                     </Route>
 
-                                    <Route exact path='/story/:slug/like' element={<PrivateRoute />}>
-                                          <Route exact path='/story/:slug/like' element={<DetailStory />} />
-                                    </Route>
 
                                     <Route exact path='/story/:slug/edit' element={<PrivateRoute />}>
                                           <Route exact path='/story/:slug/edit' element={<EditStory />} />
-                                    </Route>
-
-                                    <Route exact path='/story/:slug/delete' element={<PrivateRoute />}>
-                                          <Route exact path='/story/:slug/delete' element={<DetailStory />} />
-                                    </Route>
-                                    <Route exact path='/story/:slug/addComment' element={<PrivateRoute />}>
-                                          <Route exact path='/story/:slug/addComment' element={<DetailStory />} />
                                     </Route>
 
                                     <Route exact path='/readList' element={<PrivateRoute />}>
