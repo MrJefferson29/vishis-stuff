@@ -57,7 +57,7 @@ const Footer = () => {
                 className="lin"
                 style={{ fontSize: "1.2rem", color: "burlywood" }}
               >
-                ✉️ vishis.logistics1968@gmail.com
+                📨vishislogistics6@gmail.com
               </NavLink>
             </center>
           </Col>
